@@ -12,5 +12,6 @@
         crossorigin="anonymous"></script>
 
 <script src="js/main.js"></script>
+
 </body>
 </html>

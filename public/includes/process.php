@@ -3,7 +3,7 @@
 include_once "../database/constants.php";
 include_once "user.php";
 include_once "helpers.php";
-
+include_once "DBOperation.php";
 
 //Registration
 if (isset($_POST['username']) &&
@@ -37,4 +37,70 @@ if (isset($_POST['log_email']) &&
 
     $user = new User();
     $user->userLogin($log_email, $log_password);
+}
+
+//Get category
+
+if (isset($_POST['getCategory'])) {
+    $obj = new DBOperation();
+    $rows = $obj->getAllRecords("categories");
+
+    foreach ($rows as $row) {
+        echo "<option value='".$row["cid"]."'>" .$row["category_name"]. "</option>";
+    }
+    exit();
+}
+
+//Get brands
+
+if (isset($_POST['getBrand'])) {
+    $obj = new DBOperation();
+    $rows = $obj->getAllRecords("brands");
+
+    foreach ($rows as $row) {
+        echo "<option value='".$row["bid"]."'>" .$row["brand_name"]. "</option>";
+    }
+    exit();
+}
+
+//Add category
+
+if (isset($_POST['add_cat']) && isset($_POST['category_name'])) {
+    $cat_name = formatChars($_POST['category_name']);
+
+    $db = new DBOperation();
+
+    $result = $db->addCategory($_POST['parent_category'], $cat_name);
+
+    exit();
+}
+//Add brand
+
+if (isset($_POST['brand_name'])) {
+    $brand_name = formatChars($_POST['brand_name']);
+
+    $db = new DBOperation();
+
+    $result = $db->addBrand($brand_name);
+
+    exit();
+}
+
+//Add products
+
+if (isset($_POST['add_product']) &&
+    isset($_POST['date_added']) &&
+    isset($_POST['product_name']) &&
+    isset($_POST['product_category']) &&
+    isset($_POST['product_brand']) &&
+    isset($_POST['product_price']) &&
+    isset($_POST['product_quantity'])
+    ) {
+    $prod_name = formatChars($_POST['product_name']);
+
+    $db = new DBOperation();
+
+    $result = $db->addProduct($_POST['product_category'], $_POST['product_brand'], $prod_name, $_POST['product_price'], $_POST['product_quantity'], $_POST['date_added']);
+
+    exit();
 }

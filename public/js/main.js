@@ -61,16 +61,19 @@ $(document).ready(function () {
        }
 
        if(password1.val() === password2.val()) {
+           $('.overlay').show();
             $.ajax({
                 url: 'http://erp/public/includes/process.php',
                 method: 'post',
                 data: $(this).serialize(),
                 success: function (data) {
+                    $('.overlay').hide();
                     if (data == 'EMAIL_ALREADY_EXISTS') {
                         alert("It seems like your email is already used");
                     } else if(data = 'SOME_ERROR') {
                         alert("Something went wrong");
                     } else {
+                        $('.overlay').hide();
                         window.location.href = encodeURI('http://erp/public/index.php?msg="You are already redistred"')
                     }
                 },
@@ -112,16 +115,19 @@ $(document).ready(function () {
         }
 
         if (status) {
+            $('.overlay').show();
             $.ajax({
                 url: 'http://erp/public/includes/process.php',
                 method: 'post',
                 data: $(this).serialize(),
                 success: function (data) {
+                    $('.overlay').hide();
                     if (data == 'NOT_REGISTRED') {
                         $("#e_error").html("It seems like you dont have accound");
                     } else if(data == 'PASS_NOT_MATCHED') {
                         $("#p_error").html("Please, enter correct password.");
                     } else {
+                        $('.overlay').hide();
                         window.location.href = encodeURI('http://erp/public/dashboard.php')
                     }
                 },
@@ -132,4 +138,113 @@ $(document).ready(function () {
             });
         }
     });
-})
+    
+    
+    //Fetch category
+    fetch_category();
+    function fetch_category() {
+        $.ajax({
+           url: 'http://erp/public/includes/process.php',
+           method: 'post',
+           data: {getCategory:1},
+           success: function (data) {
+               var root = "<option value='0'>Root</option>";
+                $('#parent_category, #product_category').html(data);
+            }
+        });
+    }
+
+    //Fetch category
+    fetch_brands();
+    function fetch_brands() {
+        $.ajax({
+            url: 'http://erp/public/includes/process.php',
+            method: 'post',
+            data: {getBrand:1},
+            success: function (data) {
+                var root = "<option value='0'>Root</option>";
+                $('#product_brand').html(data);
+            }
+        });
+    }
+
+    //Add category
+
+    $("#form_category").on('submit', function () {
+       if ($("#category_name").val() == "") {
+           $("#category_name").addClass("border-danger");
+           $("#cat_error").html("<span class='text-danger'>Please enter category name.</span>");
+       } else {
+           $.ajax({
+               url: 'http://erp/public/includes/process.php',
+               method: 'post',
+               data: $("#form_category").serialize(),
+               success: function (res) {
+                   res = JSON.parse(res);
+                   if(res.success == true) {
+                       $("#cat_error").html("<span class='text-success'>New category has been added.</span>");
+                       $("#category_name").val("")
+                   } else {
+                       alert(res);
+                   }
+               }
+           })
+       }
+    });
+
+    //Add brand
+    $("#form_brands").on('submit', function () {
+        if ($("#brand_name").val() == "") {
+            $("#brand_name").addClass("border-danger");
+            $("#brand_error").html("<span class='text-danger'>Please enter brand name.</span>");
+        } else {
+            $.ajax({
+                url: 'http://erp/public/includes/process.php',
+                method: 'post',
+                data: $("#brand_name").serialize(),
+                success: function (res) {
+                    res = JSON.parse(res);
+                    console.log(res.success);
+                    if(res.success == true) {
+                        $("#brand_error").html("<span class='text-success'>New brand has been added.</span>");
+                        $("#brand_name").val("")
+                    } else {
+                        alert(res);
+                    }
+                }
+            })
+        }
+    });
+
+    //Add brand
+    $("#add_product").on('submit', function () {
+        if ($("#product_name").val() == "") {
+            $("#product_name").addClass("border-danger");
+            $("#product_error").html("<span class='text-danger'>Please enter product name.</span>");
+        } else if($("#product_price").val() == "") {
+            $("#product_price").addClass("border-danger");
+            $("#price_error").html("<span class='text-danger'>Please enter product price.</span>");
+        } else if($("#product_quantity").val() == "") {
+            $("#product_quantity").addClass("border-danger");
+            $("#quantity_error").html("<span class='text-danger'>Please enter product quantity.</span>");
+        } else {
+            $.ajax({
+                url: 'http://erp/public/includes/process.php',
+                method: 'post',
+                data: $(this).serialize(),
+                success: function (res) {
+                    res = JSON.parse(res);
+                    console.log(res.success);
+                    if(res.success == true) {
+                        $("#product_error").html("<span class='text-success'>New product has been added.</span>");
+                        $("#product_name").val("")
+                        $("#product_price").val("")
+                        $("#product_quantity").val("")
+                    } else {
+                        alert(res);
+                    }
+                }
+            })
+        }
+    });
+});

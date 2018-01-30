@@ -51,7 +51,7 @@ class User
     public function userLogin($email, $password) {
         $pre_stmt = $this->conn->prepare("SELECT id, username, password, last_login FROM user WHERE email = ?");
         $pre_stmt->bind_param("s", $email);
-        $pre_stmt->execute() or die($this->con->error);
+        $pre_stmt->execute() or die($this->conn->error);
         $result = $pre_stmt->get_result();
 
         if($result->num_rows < 0) {

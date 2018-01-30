@@ -4,17 +4,25 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add new brand</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                <form id="form_brands" onsubmit="return false" autocomplete="off">
+                    <input type="hidden" name="add_brand" value="1">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Brand Name</label>
+                        <input type="text" class="form-control" name="brand_name" id="brand_name" aria-describedby="brand_error"
+                               placeholder="Enter brand name">
+                        <small id="brand_error" class="form-text text-muted"></small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>

@@ -1,15 +1,6 @@
 <?php include 'templates/header.php'?>
-
 <div class="container">
-    <?php
-        if (isset($_GET["msg"]) && !empty($_GET["msg"])) :?>
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <?php echo $_GET["msg"];?>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        <?php endif;?>
+
     <div class="card mx-auto" style="width: 20rem;">
         <img src="images/generic-user-purple.png" style="width: 60%" class="card-img-top mx-auto" alt="Login icon">
         <div class="card-body">
