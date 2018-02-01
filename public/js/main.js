@@ -247,4 +247,24 @@ $(document).ready(function () {
             })
         }
     });
+
+    //Manage Category
+    manageCategory(1);
+    function manageCategory(pn) {
+        $.ajax({
+            url: 'http://erp/public/includes/process.php',
+            method: 'post',
+            data: {manageCategory: 1, pageno: pn},
+            success: function (res) {
+                $("#get_category").html(res);
+            }
+        })
+    }
+
+    $("body").on('click', '.page-link', function (e) {
+        e.preventDefault();
+        var pn = $(this).attr('pn');
+        manageCategory(pn);
+    })
+
 });

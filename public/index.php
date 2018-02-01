@@ -26,6 +26,8 @@
             <a href="#">Forgot Password ?</a>
         </div>
     </div>
+
+
 </div>
 
 <?php include_once 'templates/footer.php'?>

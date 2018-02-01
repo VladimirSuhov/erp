@@ -13,32 +13,35 @@ function pagination($conn,$table,$pno,$n){
 
     echo "Total Pages ".$last."<br/>";
 
-    $pagination = "";
+    $pagination = "<nav aria-label=\"Page navigation example\">";
+    $pagination .= "<ul class=\"pagination\">";
+
 
     if ($last != 1) {
         if ($pageno > 1) {
             $previous = "";
             $previous = $pageno - 1;
-            $pagination .= "<a href='pagination.php?pageno=".$previous."' style='color:#333;'> Previous </a>";
+            $pagination .= "<li class='page-item'><a  class='page-link' href='pagination.php?pageno=".$previous."' style='color:#333;'> Previous </a></li>";
         }
         for($i=$pageno - 5;$i< $pageno ;$i++){
             if ($i > 0) {
-                $pagination .= "<a href='pagination.php?pageno=".$i."'> ".$i." </a>";
+                $pagination .= "<li class='page-item'><a  class='page-link' href='pagination.php?pageno=".$i."'> ".$i." </a></li>";
             }
 
         }
-        $pagination .= "<a href='pagination.php?pageno=".$pageno."' style='color:#333;'> $pageno </a>";
+        $pagination .= "<li class='page-item'><a  class='page-link' href='pagination.php?pageno=".$pageno."' style='color:#333;'> $pageno </a></li>";
         for ($i=$pageno + 1; $i <= $last; $i++) {
-            $pagination .= "<a href='pagination.php?pageno=".$i."'> ".$i." </a>";
+            $pagination .= "<li class='page-item'><a  class='page-link' href='pagination.php?pageno=".$i."'> ".$i." </a></li>";
             if ($i > $pageno + 4) {
                 break;
             }
         }
         if ($last > $pageno) {
             $next = $pageno + 1;
-            $pagination .= "<a href='pagination.php?pageno=".$next."' style='color:#333;'> Next </a>";
+            $pagination .= "<li class='page-item'><a  class='page-link' href='pagination.php?pageno=".$next."' style='color:#333;'> Next </a></li>";
         }
     }
+    $pagination .= "</ul></nav>";
 //LIMIT 0,10
 //LIMIT 20,10
     $limit = "LIMIT ".($pageno - 1) * $numberOfRecordsPerPage.",".$numberOfRecordsPerPage;
