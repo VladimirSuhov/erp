@@ -149,7 +149,7 @@ $(document).ready(function () {
            data: {getCategory:1},
            success: function (data) {
                var root = "<option value='0'>Root</option>";
-                $('#parent_category, #product_category').html(data);
+                $('#parent_category, #product_category, #update_parent_category').html(data);
             }
         });
     }
@@ -234,7 +234,6 @@ $(document).ready(function () {
                 data: $(this).serialize(),
                 success: function (res) {
                     res = JSON.parse(res);
-                    console.log(res.success);
                     if(res.success == true) {
                         $("#product_error").html("<span class='text-success'>New product has been added.</span>");
                         $("#product_name").val("")
@@ -247,24 +246,5 @@ $(document).ready(function () {
             })
         }
     });
-
-    //Manage Category
-    manageCategory(1);
-    function manageCategory(pn) {
-        $.ajax({
-            url: 'http://erp/public/includes/process.php',
-            method: 'post',
-            data: {manageCategory: 1, pageno: pn},
-            success: function (res) {
-                $("#get_category").html(res);
-            }
-        })
-    }
-
-    $("body").on('click', '.page-link', function (e) {
-        e.preventDefault();
-        var pn = $(this).attr('pn');
-        manageCategory(pn);
-    })
 
 });

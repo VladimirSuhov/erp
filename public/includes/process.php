@@ -116,20 +116,22 @@ if (isset($_POST['manageCategory'])) {
     $pagination = $result["pagination"];
 
     if (count($rows) > 0) {
-        $n = 0;
+        $n = (($_POST["pageno"] - 1) * 5) + 1;
+
         foreach ($rows as $row) {
             ?>
             <tr>
-                <td><?php echo ++$n; ?></td>
+                <td><?php echo $n; ?></td>
                 <td><?php echo $row['category']; ?></td>
                 <td><?php echo $row['parent']; ?></td>
                 <td><a href="" class="btn btn-success btn-sm"><?php echo $row['status'] == 1 ? 'Active' : 'Not active' ; ?></a></td>
-                <td>
-                    <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                    <a href="#" class="btn btn-info btn-sm">Edit</a>
+                <td class="edit-buttons">
+                    <a href="#" data-id="<?php echo $row['cid'];?>" class="btn btn-danger btn-sm delete-cat">Delete</a>
+                    <a href="#" data-id="<?php echo $row['cid'];?>" data-toggle="modal" data-target="#update_category" class="btn btn-info btn-sm edit-cat">Edit</a>
                 </td>
             </tr>
             <?php
+            $n++;
         }
         ?>
         <tr><td colspan="5"><?php echo $pagination; ?></td></tr>
@@ -138,3 +140,36 @@ if (isset($_POST['manageCategory'])) {
     }
 }
 
+//Delete category
+
+if (isset($_POST['deleteCat'])) {
+    $manage = new Manage();
+    $result = $manage->deleteRecord('categories', 'cid',  $_POST['id']);
+    echo $result;
+}
+
+
+//Edit category
+
+if (isset($_POST['editCat'])) {
+    $manage = new Manage();
+    $result = $manage->getSingleRecord('categories', 'cid', $_POST['id']);
+    if ($result) {
+        echo json_encode($result);
+        exit();
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Data error']);
+    }
+    exit();
+}
+
+//Update Editing record
+
+    if (isset($_POST['update_category'])) {
+        $id = $_POST['cid'];
+        $new_cat_name = formatChars($_POST['update_category_name']);
+        $new_parent_cat = $_POST['update_parent_category'];
+
+        $manage = new Manage();
+        $result = $manage->updateRecord('categories', ['cid' => $id], ['parent_category' => $new_parent_cat, 'category_name' => $new_cat_name]);
+    }
