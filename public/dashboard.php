@@ -60,7 +60,7 @@
                     <h5 class="card-title">Brands</h5>
                     <p class="card-text">Here you can manage your brands and add new brands</p>
                     <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#brands">Add</a>
-                    <a href="#" class="btn btn-primary">Manage</a>
+                    <a href="manage_brands.php" class="btn btn-primary">Manage</a>
                 </div>
             </div>
         </div>
@@ -70,7 +70,7 @@
                     <h5 class="card-title">Products</h5>
                     <p class="card-text">Here you can manage your products and add new products</p>
                     <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#products">Add</a>
-                    <a href="#" class="btn btn-primary">Manage</a>
+                    <a href="manage_products.php" class="btn btn-primary">Manage</a>
                 </div>
             </div>
         </div>

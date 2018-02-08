@@ -61,7 +61,12 @@ class Manage
     {
         $a = $this->pagination($this->conn, $table, $pno, 5);
         if ($table == "categories") {
-            $sql = "SELECT p.category_name as category, c.category_name as parent, p.status, p.cid FROM categories p LEFT JOIN  categories c ON p.parent_category=c.cid " . $a['limit'];
+            $sql = "SELECT p.category_name as category, c.category_name as parent, p.status, p.cid FROM 
+                    categories p LEFT JOIN  categories c ON p.parent_category=c.cid " . $a['limit'];
+        } if ($table == "brands") {
+            $sql = "SELECT * FROM ".$table." ".$a['limit'];
+        } if ($table == "products") {
+            $sql = "SELECT p.pid, p.product_name, c.category_name, b.brand_name, p.product_price, p.product_stock, p.added_date,p.p_status FROM products p, brands b, categories c WHERE p.bid = b.bid AND p.cid = c.cid " .$a['limit'];
         }
         $result = $this->conn->query($sql) or die($this->conn->error);
 
@@ -99,7 +104,7 @@ class Manage
             $pre_stmt->bind_param("i", $id);
             $result = $pre_stmt->execute() or die($this->conn->error);
             if ($result) {
-                echo json_encode(["success" => true, "message" => "category deleted"]);
+                echo json_encode(["success" => true, "message" => "record deleted"]);
             }
 
         }
@@ -143,4 +148,4 @@ class Manage
 }
 //$obj = new Manage();
 //echo "<pre>";
-//print_r($obj->updateRecord('categories',['cid' => 1], ['parent_category' => 3, 'category_name' => 'Zalupa']));
+//print_r($obj->deleteRecord('brands', 'bid', 36));
